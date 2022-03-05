@@ -1,9 +1,11 @@
-
+import { useHistory } from 'react-router-dom';
 
 export default function Details() {
 
+    const history = useHistory();
+
     const handleBack = () => {
-        console.log('Go Back Clicked!');
+        history.push('/');
     }
 
     return (
