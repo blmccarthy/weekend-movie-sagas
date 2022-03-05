@@ -11,10 +11,14 @@ import createSagaMiddleware from 'redux-saga';
 import { takeEvery, put } from 'redux-saga/effects';
 import axios from 'axios';
 
+// ===== SAGA STORE ============================================================= //
+
 // Create the rootSaga generator function
 function* rootSaga() {
     yield takeEvery('FETCH_MOVIES', fetchAllMovies);
 }
+
+// ===== SAGA FUNCTIONS ========================================================= //
 
 function* fetchAllMovies() {
     // get all movies from the DB
@@ -31,6 +35,8 @@ function* fetchAllMovies() {
 
 // Create sagaMiddleware
 const sagaMiddleware = createSagaMiddleware();
+
+// ===== REDUCERS ============================================================== //
 
 // Used to store movies returned from the server
 const movies = (state = [], action) => {
@@ -52,6 +58,8 @@ const genres = (state = [], action) => {
     }
 }
 
+// ===== REDUCER STORE =========================================================== //
+
 // Create one store that all components can use
 const storeInstance = createStore(
     combineReducers({
@@ -64,6 +72,8 @@ const storeInstance = createStore(
 
 // Pass rootSaga into our sagaMiddleware
 sagaMiddleware.run(rootSaga);
+
+// ===== RENDER DOM ============================================================ //
 
 ReactDOM.render(
     <React.StrictMode>
