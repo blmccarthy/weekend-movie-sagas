@@ -20,7 +20,7 @@ function MovieList() {
         dispatch({ type: 'SET_SELECTED_MOVIE', payload: event})
         history.push(`/Details/${event}`)
 
-        // TODO:
+        // TODO: *Strech
         // Current solution breaks '/Details' on refresh
         // Perhaps setup new axios.get that targets the '/${event}'
     }
