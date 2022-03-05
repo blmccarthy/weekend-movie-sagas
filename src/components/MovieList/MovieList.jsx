@@ -8,15 +8,21 @@ function MovieList() {
 
     const history = useHistory();
     const dispatch = useDispatch();
+
     const movies = useSelector(store => store.movies);
 
     useEffect(() => {
         dispatch({ type: 'FETCH_MOVIES' });
     }, []);
 
-    const handleImageClick = () => {
-        console.log('you clicked an image');
-        history.push('/Details')
+    const handleImageClick = (event) => {
+        // The event = movie.id of image that was clicked
+        dispatch({ type: 'SET_SELECTED_MOVIE', payload: event})
+        history.push(`/Details/${event}`)
+
+        // TODO:
+        // Current solution breaks '/Details' on refresh
+        // Perhaps setup new axios.get that targets the '/${event}'
     }
 
     return (
@@ -27,7 +33,13 @@ function MovieList() {
                     return (
                         <div key={movie.id} >
                             <h3>{movie.title}</h3>
-                            <img onClick={handleImageClick} src={movie.poster} alt={movie.title}/>
+                            <img 
+                                // function below: e.target.id = {movie.id}
+                                onClick={(e) => handleImageClick(e.target.id)} 
+                                src={movie.poster} 
+                                alt={movie.title}
+                                id={movie.id} // event target ^^^
+                            />
                         </div>
                     );
                 })}
