@@ -30,13 +30,6 @@ export default function MovieForm() {
                 genre_id: newMovieGenre,
             }
         })
-        // dispatch({
-        //     type: 'ADD_GENRE', payload: {
-        //         genre_id: newMovieGenre,
-        //         movie_id: (movies.length + 1)
-        //     }
-        // })
-        // Returns to Home (Movie List)
         history.push('/');
     }
 

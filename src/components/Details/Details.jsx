@@ -27,7 +27,7 @@ export default function Details() {
                 <div><b>GENRES</b></div>
                 <ul>
                     {selectedGenre.map((movie) => {
-                        return (<li>{movie.genre}</li>)
+                        return (<li key={movie.genre_id}>{movie.genre}</li>)
                     })}
                 </ul>
                 <div><b>MOVIE DESCRIPTION:</b></div>
