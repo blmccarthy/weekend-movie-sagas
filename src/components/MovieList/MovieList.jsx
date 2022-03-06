@@ -14,6 +14,7 @@ function MovieList() {
     useEffect(() => {
         dispatch({ type: 'FETCH_MOVIES' });
         dispatch({ type: 'FETCH_GENRES' });
+        dispatch({ type: 'FETCH_MOVIE_GENRES' });
     }, []);
 
     const handleImageClick = (event) => {
