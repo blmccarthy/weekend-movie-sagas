@@ -2,6 +2,9 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 
+// MATERIAL UI
+import { Button } from '@mui/material';
+
 export default function MovieForm() {
 
     const history = useHistory();
@@ -79,8 +82,8 @@ export default function MovieForm() {
                     })}
                 </select>
                 <br/><br/>
-                <button type="submit">Save</button>
-                <button onClick={handleCancel}>Cancel</button>
+                <Button variant="contained" type="submit" sx={{m: 1}}>Save</Button>
+                <Button variant="outlined" onClick={handleCancel} sx={{m: 1}}>Cancel</Button>
             </form>
         </>
     )

@@ -1,3 +1,7 @@
+* {
+  font-family: 'Roboto', 'Helvetica', sans-serif;
+}
+
 .App {
   text-align: center;
 }
@@ -21,4 +25,13 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+header {
+  font-size: 3rem;
+  font-style: italic;
+  padding: 20px;
+  background-color: rgb(41, 41, 41);
+  color: white;
+  margin-bottom: 5px;
 }

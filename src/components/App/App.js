@@ -8,7 +8,7 @@ import EditForm from '../EditForm/EditForm'
 function App() {
   return (
     <div className="App">
-      <h1>The Movies Saga!</h1>
+      <header>The Movies Saga!</header>
       <Router>
         <Route path="/" exact>
           <MovieList />

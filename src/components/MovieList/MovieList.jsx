@@ -8,6 +8,10 @@ import {
     Box, Card, CardActions, CardContent, Button, Typography, CardMedia
 } from '@mui/material';
 
+import {
+    AddBoxIcon
+} from '@mui/icons-material';
+
 
 function MovieList() {
 
@@ -53,7 +57,7 @@ function MovieList() {
 
     return (
         <main>
-            <button onClick={navMovieForm}>ADD MOVIE</button>
+            <Button variant="contained" onClick={navMovieForm} sx={{width: 300}}>ADD MOVIE</Button>
             <section className="movies">
                 {movies.map(movie => {
                     return (
