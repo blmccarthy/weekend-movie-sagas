@@ -14,19 +14,23 @@ export default function MovieForm() {
     // Imports Selected Movie Details
     const selectedMovie = useSelector(store => store.selectedMovieReducer)
 
+    // Sets Selected Genre of Movie
+    const selectedGenre = (movieGenres.filter(movie => movie.movie_id == selectedMovie.id)[0]).genre_id;
+
     // Genres for dropdown made available if page refreshes 
     useEffect(() => {
         dispatch({ type: 'FETCH_GENRES'})
     }, []) ;
 
-    const [newMovieTitle, setNewMovieTitle] = useState('')
-    const [newMoviePoster, setNewMoviePoster] = useState('')
-    const [newMovieDescription, setNewMovieDescription] = useState('')
-    const [newMovieGenre, setNewMovieGenre] = useState('')
+    const [newMovieTitle, setNewMovieTitle] = useState(selectedMovie.title)
+    const [newMoviePoster, setNewMoviePoster] = useState(selectedMovie.poster)
+    const [newMovieDescription, setNewMovieDescription] = useState(selectedMovie.description)
+    const [newMovieGenre, setNewMovieGenre] = useState(selectedGenre)
 
-    const handleSubmit = () => {
+    const handleUpdate = () => {
         dispatch({
-            type: 'ADD_MOVIE', payload: {
+            type: 'UPDATE_MOVIE', payload: {
+                id: selectedMovie.id,
                 title: newMovieTitle,
                 poster: newMoviePoster,
                 description: newMovieDescription,
@@ -41,10 +45,11 @@ export default function MovieForm() {
     }
 
     console.log('selectedMovie', selectedMovie);
+    console.log('selectedGenre', selectedGenre);
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleUpdate}>
                 <input
                     required
                     type="text"
@@ -79,9 +84,10 @@ export default function MovieForm() {
                     })}
                 </select>
                 <br/><br/>
-                <button type="submit">Save</button>
+                <input type="submit" value="Update"/>
                 <button onClick={handleCancel}>Cancel</button>
             </form>
+
         </>
     )
 }
