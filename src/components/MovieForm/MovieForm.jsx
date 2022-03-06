@@ -25,7 +25,7 @@ export default function MovieForm() {
         history.push('/');
     }
 
-    const navHome = () => {
+    const handleCancel = () => {
         history.push('/')
     }
 
@@ -76,7 +76,7 @@ export default function MovieForm() {
                 />
             </form>
             <br />
-            <button onClick={navHome}>Go Back</button>
+            <button onClick={handleCancel}>Cancel</button>
         </>
     )
 }
