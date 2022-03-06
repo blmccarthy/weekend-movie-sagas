@@ -3,6 +3,7 @@ import './App.css';
 import MovieList from '../MovieList/MovieList'
 import MovieForm from '../MovieForm/MovieForm'
 import Details from '../Details/Details'
+import EditForm from '../EditForm/EditForm'
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
         </Route>
         <Route path="/form">
           <MovieForm />
+        </Route>
+        <Route path="/edit">
+          <EditForm />
         </Route>
       </Router>
     </div>

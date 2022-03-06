@@ -18,9 +18,14 @@ function MovieList() {
     }, []);
 
     const handleImageClick = (event) => {
-        // The event = movie.id of image that was clicked
-        dispatch({ type: 'SET_SELECTED_MOVIE', payload: event})
-        history.push(`/Details/${event}`)
+
+        // The 'event' = movie.id of image that was clicked
+        // The [0] makes it a simple object, rather than array of 1 object
+        const selectedMovie = (movies.filter( movie => movie.id == event))[0]
+
+        // Stores Selected Movie info
+        dispatch({ type: 'SET_SELECTED_MOVIE', payload: selectedMovie})
+        history.push(`/Details/${selectedMovie.id}`)
 
         // TODO: *Strech
         // Current solution breaks '/Details' on refresh
@@ -28,13 +33,20 @@ function MovieList() {
     }
 
     const navMovieForm = () => {
+
+        // Clears Selected Movie Reducer so form doesn't preload with information
+        dispatch({ type: 'SET_SELECTED_MOVIE', payload: {
+            title: '',
+            poster: '',
+            description: '',
+            genre: ''
+        } });
         history.push('/form')
     }
 
     return (
         <main>
             <button onClick={navMovieForm}>ADD MOVIE</button>
-            {/* <h1>MovieList</h1> */}
             <section className="movies">
                 {movies.map(movie => {
                     return (

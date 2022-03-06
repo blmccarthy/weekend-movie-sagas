@@ -6,24 +6,24 @@ export default function Details() {
     const history = useHistory();
 
     // Reducer Imports
-    const movies = useSelector(store => store.movies);
     const movieGenres = useSelector(store => store.movieGenres);
-    const selectedMovieReducer = useSelector(store => store.selectedMovieReducer);
-
-    // Targets specific movie that was clicked from Reducer
-    const selectedMovie = movies.filter(movie => movie.id == selectedMovieReducer);
-    // Targets only genres from movie that was selected
-    const selectedGenre = movieGenres.filter(movie => movie.movie_id == selectedMovieReducer)
+    const selectedMovie = useSelector(store => store.selectedMovieReducer);
+    // Grabs all genres related to selectedMovie
+    const selectedGenre = movieGenres.filter(movie => movie.movie_id == selectedMovie.id)
 
     const handleBack = () => {
         history.push('/');
     }
 
+    const handleEdit = () => {
+        history.push('/edit');
+    }
+
     return (
         <>
             <div>
-                <img src={selectedMovie[0].poster} />
-                <h1>{selectedMovie[0].title}</h1>
+                <img src={selectedMovie.poster} />
+                <h1>{selectedMovie.title}</h1>
                 <div><b>GENRES</b></div>
                 <ul>
                     {selectedGenre.map((movie) => {
@@ -31,9 +31,10 @@ export default function Details() {
                     })}
                 </ul>
                 <div><b>MOVIE DESCRIPTION:</b></div>
-                <div>{selectedMovie[0].description}</div>
+                <div>{selectedMovie.description}</div>
                 <br />
                 <button onClick={handleBack}>Back</button>
+                <button onClick={handleEdit}>Edit</button>
             </div>
         </>
     )

@@ -14,6 +14,10 @@ export default function MovieForm() {
     // Imports Selected Movie Details
     const selectedMovie = useSelector(store => store.selectedMovieReducer)
 
+    // Sets Selected Genre of Movie
+    // TODO: Stretch: This Breaks the blank add movie form, but works for edit
+    const selectedGenre = (movieGenres.filter(movie => movie.movie_id == selectedMovie.id)[0]).genre_id;
+
     // Genres for dropdown made available if page refreshes 
     useEffect(() => {
         dispatch({ type: 'FETCH_GENRES'})
@@ -41,6 +45,7 @@ export default function MovieForm() {
     }
 
     console.log('selectedMovie', selectedMovie);
+    console.log('selectedGenre', selectedGenre);
 
     return (
         <>
@@ -71,7 +76,7 @@ export default function MovieForm() {
                     name="Movie Genre"
                     id="genre"
                     // TODO: import selected value to drop down
-                    // value={selectedGenre()}
+                    value={selectedGenre}
                     onChange={(e) => setNewMovieGenre(e.target.value)}
                 >
                     <option value="" default hidden>Select a Genre...</option>
@@ -80,9 +85,10 @@ export default function MovieForm() {
                     })}
                 </select>
                 <br/><br/>
-                <button type="submit">Save</button>
+                <button type="submit">Update</button>
                 <button onClick={handleCancel}>Cancel</button>
             </form>
+
         </>
     )
 }
