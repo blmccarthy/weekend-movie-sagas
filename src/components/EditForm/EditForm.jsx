@@ -23,7 +23,7 @@ export default function MovieForm() {
     }, []) ;
 
     const [newMovieTitle, setNewMovieTitle] = useState(selectedMovie.title)
-    const [newMoviePoster, setNewMoviePoster] = useState(selectedMovie.post)
+    const [newMoviePoster, setNewMoviePoster] = useState(selectedMovie.poster)
     const [newMovieDescription, setNewMovieDescription] = useState(selectedMovie.description)
     const [newMovieGenre, setNewMovieGenre] = useState(selectedGenre)
 
@@ -84,7 +84,7 @@ export default function MovieForm() {
                     })}
                 </select>
                 <br/><br/>
-                <button type="submit">Update</button>
+                <input type="submit" value="Update"/>
                 <button onClick={handleCancel}>Cancel</button>
             </form>
 

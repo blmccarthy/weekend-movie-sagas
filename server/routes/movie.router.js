@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../modules/pool')
 
+// ==== GET ========================================================== //
+
 router.get('/', (req, res) => {
 
   const query = `SELECT * FROM movies ORDER BY "title" ASC`;
@@ -15,6 +17,9 @@ router.get('/', (req, res) => {
     })
 
 });
+
+// ==== POST ========================================================= //
+
 
 router.post('/', (req, res) => {
   console.log('in movie post', req.body);
@@ -52,5 +57,44 @@ router.post('/', (req, res) => {
     res.sendStatus(500)
   })
 })
+
+// ==== PUT ========================================================== //
+
+router.put('/:id', (req, res) => {
+  const movie = req.body;
+  // Updates Movie Table
+  const updateMovieQuery = `
+    UPDATE movies 
+    SET
+      title = $1,
+      poster = $2,
+      description = $3
+    WHERE
+      id = $4;
+  `
+  pool.query(updateMovieQuery, [movie.title, movie.poster, movie.description, movie.id])
+  .then((result) => {
+    // Updates movies_genres table with new Genre
+    const updateGenreQuery = `
+      UPDATE movies_genres
+      SET
+        genre_id = $1
+      WHERE
+        movie_id = $2
+    `
+    pool.query(updateGenreQuery, [movie.genre_id, movie.id])
+    .then(result => {
+      res.sendStatus(200);
+    }).catch(err => {
+      console.log('ERROR: In movie/put', err);
+      res.sendStatus(500);
+    })
+  }).catch(err => {
+    console.log('ERROR: In movie/put', err);
+    res.sendStatus(500);
+  })
+})
+
+// ==== EXPORT ======================================================= //
 
 module.exports = router;
