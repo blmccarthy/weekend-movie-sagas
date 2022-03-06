@@ -1,11 +1,19 @@
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
 
 export default function MovieForm() {
 
     const history = useHistory();
     const dispatch = useDispatch();
+
+    const genres = useSelector(store => store.genres)
+    const movies = useSelector(store => store.movies)
+
+    // Genres for dropdown made available if page refreshes 
+    useEffect(() => {
+        dispatch({ type: 'FETCH_GENRES'})
+    }, []) ;
 
     const [newMovieTitle, setNewMovieTitle] = useState('')
     const [newMoviePoster, setNewMoviePoster] = useState('')
@@ -18,9 +26,16 @@ export default function MovieForm() {
             type: 'ADD_MOVIE', payload: {
                 title: newMovieTitle,
                 poster: newMoviePoster,
-                description: newMovieDescription
+                description: newMovieDescription,
+                genre_id: newMovieGenre,
             }
         })
+        // dispatch({
+        //     type: 'ADD_GENRE', payload: {
+        //         genre_id: newMovieGenre,
+        //         movie_id: (movies.length + 1)
+        //     }
+        // })
         // Returns to Home (Movie List)
         history.push('/');
     }
@@ -28,6 +43,9 @@ export default function MovieForm() {
     const handleCancel = () => {
         history.push('/')
     }
+
+    console.log('genres', genres);
+    console.log('newMovieGenre', newMovieGenre);
 
     return (
         <>
@@ -50,26 +68,16 @@ export default function MovieForm() {
                     placeholder="Movie Description"
                     onChange={(e) => setNewMovieDescription(e.target.value)}
                 />
-                <select 
+                <select
                     required
-                    name="Movie Genre" 
+                    name="Movie Genre"
                     id="genre"
                     onChange={(e) => setNewMovieGenre(e.target.value)}
                 >
                     <option value="" default hidden>Select a Genre...</option>
-                    <option value="1">Adventure</option>
-                    <option value="2">Animated</option>
-                    <option value="3">Biographical</option>
-                    <option value="4">Comedy</option>
-                    <option value="5">Disaster</option>
-                    <option value="6">Drama</option>
-                    <option value="7">Epic</option>
-                    <option value="8">Fantasy</option>
-                    <option value="9">Musical</option>
-                    <option value="10">Romantic</option>
-                    <option value="11">Science Fiction</option>
-                    <option value="12">Space Opera</option>
-                    <option value="13">Superhero</option>
+                    {genres.map((genre) => {
+                        return (<option key={genre.id} value={genre.id}>{genre.name}</option>)
+                    })}
                 </select>
                 <input
                     type="submit" value="Save"

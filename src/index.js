@@ -16,6 +16,7 @@ import axios from 'axios';
 // Create the rootSaga generator function
 function* rootSaga() {
     yield takeEvery('ADD_MOVIE', addMovie);
+    yield takeEvery('ADD_GENRE', addGenre);
     yield takeEvery('FETCH_MOVIES', fetchAllMovies);
     yield takeEvery('FETCH_GENRES', fetchAllGenres);
     yield takeEvery('FETCH_MOVIE_GENRES', fetchMovieGenres);
@@ -48,7 +49,7 @@ function* fetchAllGenres() {
 function* fetchMovieGenres() {
     // get all MOVIE & GENRES from Db (table JOIN)
     try {
-        const movieGenres = yield axios.get('/api/genre/moviejoin');
+        const movieGenres = yield axios.get('/api/movies_genres');
         console.log('get all movie genres:', movieGenres.data);
         yield put({ type: 'SET_MOVIE_GENRES', payload: movieGenres.data });
     } catch {
@@ -62,6 +63,16 @@ function* addMovie(action) {
         console.log('in addMovie saga');
         axios.post('/api/movie', action.payload)
         yield put({ type: 'FETCH_MOVIES' });
+    } catch (err) {
+        console.log('add Movie Error', err);
+    }
+}
+
+function* addGenre(action) {
+    // post GENRE to Database
+    try {
+        console.log('in addGenre saga');
+        axios.post('/api/movies_genres', action.payload)
     } catch (err) {
         console.log('add Movie Error', err);
     }
