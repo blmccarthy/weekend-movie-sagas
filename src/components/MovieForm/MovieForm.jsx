@@ -1,13 +1,16 @@
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 
 export default function MovieForm() {
 
+    const history = useHistory();
     const dispatch = useDispatch();
 
     const [newMovieTitle, setNewMovieTitle] = useState('')
     const [newMoviePoster, setNewMoviePoster] = useState('')
     const [newMovieDescription, setNewMovieDescription] = useState('')
+    const [newMovieGenre, setNewMovieGenre] = useState('')
 
     const handleSubmit = () => {
         console.log('in Submit');
@@ -18,9 +21,12 @@ export default function MovieForm() {
                 description: newMovieDescription
             }
         })
-        setNewMovieTitle('')
-        setNewMoviePoster('')
-        setNewMovieDescription('')
+        // Returns to Home (Movie List)
+        history.push('/');
+    }
+
+    const navHome = () => {
+        history.push('/')
     }
 
     return (
@@ -47,8 +53,10 @@ export default function MovieForm() {
                 <select 
                     required
                     name="Movie Genre" 
-                    id="genre">
-                    <option value="" default disabled hidden>Select a Genre...</option>
+                    id="genre"
+                    onChange={(e) => setNewMovieGenre(e.target.value)}
+                >
+                    <option value="" default hidden>Select a Genre...</option>
                     <option value="1">Adventure</option>
                     <option value="2">Animated</option>
                     <option value="3">Biographical</option>
@@ -64,9 +72,11 @@ export default function MovieForm() {
                     <option value="13">Superhero</option>
                 </select>
                 <input
-                    type="submit"
+                    type="submit" value="Save"
                 />
             </form>
+            <br />
+            <button onClick={navHome}>Go Back</button>
         </>
     )
 }
