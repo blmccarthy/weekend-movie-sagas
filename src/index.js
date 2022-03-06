@@ -48,7 +48,7 @@ function* fetchAllGenres() {
 function* fetchMovieGenres() {
     // get all MOVIE & GENRES from Db (table JOIN)
     try {
-        const movieGenres = yield axios.get('/api/genre/moviejoin');
+        const movieGenres = yield axios.get('/api/movies_genres');
         console.log('get all movie genres:', movieGenres.data);
         yield put({ type: 'SET_MOVIE_GENRES', payload: movieGenres.data });
     } catch {
