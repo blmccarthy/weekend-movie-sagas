@@ -1,11 +1,13 @@
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 
 export default function MovieForm() {
 
     const history = useHistory();
     const dispatch = useDispatch();
+
+    const genres = useSelector(store => store.genres)
 
     const [newMovieTitle, setNewMovieTitle] = useState('')
     const [newMoviePoster, setNewMoviePoster] = useState('')
@@ -29,6 +31,8 @@ export default function MovieForm() {
         history.push('/')
     }
 
+    console.log('genres', genres);
+
     return (
         <>
             <form onSubmit={handleSubmit}>
@@ -50,26 +54,16 @@ export default function MovieForm() {
                     placeholder="Movie Description"
                     onChange={(e) => setNewMovieDescription(e.target.value)}
                 />
-                <select 
+                <select
                     required
-                    name="Movie Genre" 
+                    name="Movie Genre"
                     id="genre"
                     onChange={(e) => setNewMovieGenre(e.target.value)}
                 >
                     <option value="" default hidden>Select a Genre...</option>
-                    <option value="1">Adventure</option>
-                    <option value="2">Animated</option>
-                    <option value="3">Biographical</option>
-                    <option value="4">Comedy</option>
-                    <option value="5">Disaster</option>
-                    <option value="6">Drama</option>
-                    <option value="7">Epic</option>
-                    <option value="8">Fantasy</option>
-                    <option value="9">Musical</option>
-                    <option value="10">Romantic</option>
-                    <option value="11">Science Fiction</option>
-                    <option value="12">Space Opera</option>
-                    <option value="13">Superhero</option>
+                    {genres.map((genre) => {
+                        return (<option key={genre.id}>{genre.name}</option>)
+                    })}
                 </select>
                 <input
                     type="submit" value="Save"
