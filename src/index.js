@@ -18,12 +18,13 @@ function* rootSaga() {
     yield takeEvery('ADD_MOVIE', addMovie);
     yield takeEvery('FETCH_MOVIES', fetchAllMovies);
     yield takeEvery('FETCH_GENRES', fetchAllGenres);
+    yield takeEvery('FETCH_MOVIE_GENRES', fetchMovieGenres);
 }
 
 // ===== SAGA FUNCTIONS ========================================================= //
 
 function* fetchAllMovies() {
-    // get all movies from the DB
+    // get all MOVIES from the DB
     try {
         const movies = yield axios.get('/api/movie');
         console.log('get all movies:', movies.data);
@@ -34,7 +35,7 @@ function* fetchAllMovies() {
 }
 
 function* fetchAllGenres() {
-    // get all genres from the DB
+    // get all GENRES from the DB
     try {
         const genres = yield axios.get('/api/genre');
         console.log('get all genres:', genres.data);
@@ -44,8 +45,19 @@ function* fetchAllGenres() {
     }
 }
 
+function* fetchMovieGenres() {
+    // get all MOVIE & GENRES from Db (table JOIN)
+    try {
+        const movieGenres = yield axios.get('/api/genre/moviejoin');
+        console.log('get all movie genres:', movieGenres.data);
+        yield put({ type: 'SET_MOVIE_GENRES', payload: movieGenres.data });
+    } catch {
+        console.log('get all genres error');
+    }
+}
+
 function* addMovie(action) {
-    // post movie to Database
+    // post MOVIE to Database
     try {
         console.log('in addMovie saga');
         axios.post('/api/movie', action.payload)
@@ -80,6 +92,16 @@ const genres = (state = [], action) => {
     }
 }
 
+// Used to store the movie genres
+const movieGenres = (state = [], action) => {
+    switch (action.type) {
+        case 'SET_MOVIE_GENRES':
+            return action.payload;
+        default:
+            return state;
+    }
+}
+
 
 const selectedMovieReducer = (state = {}, action) => {
     switch (action.type) {
@@ -97,6 +119,7 @@ const storeInstance = createStore(
     combineReducers({
         movies,
         genres,
+        movieGenres,
         selectedMovieReducer,
     }),
     // Add sagaMiddleware to our store
