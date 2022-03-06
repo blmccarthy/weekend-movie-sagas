@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function MovieForm() {
 
@@ -8,6 +8,12 @@ export default function MovieForm() {
     const dispatch = useDispatch();
 
     const genres = useSelector(store => store.genres)
+    const movies = useSelector(store => store.movies)
+
+    // Genres for dropdown made available if page refreshes 
+    useEffect(() => {
+        dispatch({ type: 'FETCH_GENRES'})
+    }, []) ;
 
     const [newMovieTitle, setNewMovieTitle] = useState('')
     const [newMoviePoster, setNewMoviePoster] = useState('')
@@ -20,9 +26,16 @@ export default function MovieForm() {
             type: 'ADD_MOVIE', payload: {
                 title: newMovieTitle,
                 poster: newMoviePoster,
-                description: newMovieDescription
+                description: newMovieDescription,
+                genre_id: newMovieGenre,
             }
         })
+        // dispatch({
+        //     type: 'ADD_GENRE', payload: {
+        //         genre_id: newMovieGenre,
+        //         movie_id: (movies.length + 1)
+        //     }
+        // })
         // Returns to Home (Movie List)
         history.push('/');
     }
@@ -32,6 +45,7 @@ export default function MovieForm() {
     }
 
     console.log('genres', genres);
+    console.log('newMovieGenre', newMovieGenre);
 
     return (
         <>
@@ -62,7 +76,7 @@ export default function MovieForm() {
                 >
                     <option value="" default hidden>Select a Genre...</option>
                     {genres.map((genre) => {
-                        return (<option key={genre.id}>{genre.name}</option>)
+                        return (<option key={genre.id} value={genre.id}>{genre.name}</option>)
                     })}
                 </select>
                 <input

@@ -27,4 +27,20 @@ router.get('/', (req, res) => {
     })
   });
 
+  router.post('/', (req, res) => {
+    console.log('in movies_genres post');
+    const query = `
+        INSERT INTO movies_genres (movie_id, genre_id)
+        VALUES ($1, $2);
+    `
+    pool.query(query [req.body.movie_id, req.body.genre_id])
+    .then((result) => {
+        console.log('in POST .then');
+        res.sendStatus(200);
+    }).catch((err) => {
+        console.log('in POST .catch', err);
+        res.sendStatus(500);
+    })
+  })
+
   module.exports = router;
