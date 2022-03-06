@@ -19,6 +19,7 @@ function* rootSaga() {
     yield takeEvery('FETCH_MOVIES', fetchAllMovies);
     yield takeEvery('FETCH_GENRES', fetchAllGenres);
     yield takeEvery('FETCH_MOVIE_GENRES', fetchMovieGenres);
+    yield takeEvery('UPDATE_MOVIE', updateMovie);
 }
 
 // ===== SAGA FUNCTIONS ========================================================= //
@@ -67,6 +68,15 @@ function* addMovie(action) {
     }
 }
 
+function* updateMovie(action) {
+    try {
+        console.log('action.payload', action.payload);
+    } catch (err) {
+        console.log('ERROR UPDATING MOVIE', err);
+        
+    }
+}
+
 // Create sagaMiddleware
 const sagaMiddleware = createSagaMiddleware();
 
@@ -102,7 +112,6 @@ const movieGenres = (state = [], action) => {
     }
 }
 
-
 const selectedMovieReducer = (state = {}, action) => {
     switch (action.type) {
         case 'SET_SELECTED_MOVIE':
@@ -111,6 +120,7 @@ const selectedMovieReducer = (state = {}, action) => {
             return state;
     }
 }
+
 
 // ===== REDUCER STORE =========================================================== //
 

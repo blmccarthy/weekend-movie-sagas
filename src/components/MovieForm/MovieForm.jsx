@@ -49,29 +49,28 @@ export default function MovieForm() {
                     required
                     type="text"
                     placeholder="Movie title"
-                    value={selectedMovie.title}
+                    value={newMovieTitle}
                     onChange={(e) => setNewMovieTitle(e.target.value)}
                 />
                 <input
                     required
                     type="text"
                     placeholder="Movie Poster URL"
-                    value={selectedMovie.poster}
+                    value={newMoviePoster}
                     onChange={(e) => setNewMoviePoster(e.target.value)}
                 />
                 <input
                     required
                     type="text"
                     placeholder="Movie Description"
-                    value={selectedMovie.description}
+                    value={newMovieDescription}
                     onChange={(e) => setNewMovieDescription(e.target.value)}
                 />
                 <select
                     required
                     name="Movie Genre"
                     id="genre"
-                    // TODO: import selected value to drop down
-                    // value={selectedGenre()}
+                    value={newMovieGenre}
                     onChange={(e) => setNewMovieGenre(e.target.value)}
                 >
                     <option value="" default hidden>Select a Genre...</option>

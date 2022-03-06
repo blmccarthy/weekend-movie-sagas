@@ -16,7 +16,7 @@ export default function Details() {
     }
 
     const handleEdit = () => {
-        history.push('/edit');
+        history.push(`/edit/${selectedMovie.id}`);
     }
 
     return (

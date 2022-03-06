@@ -15,7 +15,6 @@ export default function MovieForm() {
     const selectedMovie = useSelector(store => store.selectedMovieReducer)
 
     // Sets Selected Genre of Movie
-    // TODO: Stretch: This Breaks the blank add movie form, but works for edit
     const selectedGenre = (movieGenres.filter(movie => movie.movie_id == selectedMovie.id)[0]).genre_id;
 
     // Genres for dropdown made available if page refreshes 
@@ -23,14 +22,15 @@ export default function MovieForm() {
         dispatch({ type: 'FETCH_GENRES'})
     }, []) ;
 
-    const [newMovieTitle, setNewMovieTitle] = useState('')
-    const [newMoviePoster, setNewMoviePoster] = useState('')
-    const [newMovieDescription, setNewMovieDescription] = useState('')
-    const [newMovieGenre, setNewMovieGenre] = useState('')
+    const [newMovieTitle, setNewMovieTitle] = useState(selectedMovie.title)
+    const [newMoviePoster, setNewMoviePoster] = useState(selectedMovie.post)
+    const [newMovieDescription, setNewMovieDescription] = useState(selectedMovie.description)
+    const [newMovieGenre, setNewMovieGenre] = useState(selectedGenre)
 
-    const handleSubmit = () => {
+    const handleUpdate = () => {
         dispatch({
-            type: 'ADD_MOVIE', payload: {
+            type: 'UPDATE_MOVIE', payload: {
+                id: selectedMovie.id,
                 title: newMovieTitle,
                 poster: newMoviePoster,
                 description: newMovieDescription,
@@ -49,34 +49,33 @@ export default function MovieForm() {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleUpdate}>
                 <input
                     required
                     type="text"
                     placeholder="Movie title"
-                    value={selectedMovie.title}
+                    value={newMovieTitle}
                     onChange={(e) => setNewMovieTitle(e.target.value)}
                 />
                 <input
                     required
                     type="text"
                     placeholder="Movie Poster URL"
-                    value={selectedMovie.poster}
+                    value={newMoviePoster}
                     onChange={(e) => setNewMoviePoster(e.target.value)}
                 />
                 <input
                     required
                     type="text"
                     placeholder="Movie Description"
-                    value={selectedMovie.description}
+                    value={newMovieDescription}
                     onChange={(e) => setNewMovieDescription(e.target.value)}
                 />
                 <select
                     required
                     name="Movie Genre"
                     id="genre"
-                    // TODO: import selected value to drop down
-                    value={selectedGenre}
+                    value={newMovieGenre}
                     onChange={(e) => setNewMovieGenre(e.target.value)}
                 >
                     <option value="" default hidden>Select a Genre...</option>
