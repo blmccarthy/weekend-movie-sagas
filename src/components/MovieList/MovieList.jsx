@@ -13,6 +13,7 @@ function MovieList() {
 
     useEffect(() => {
         dispatch({ type: 'FETCH_MOVIES' });
+        dispatch({ type: 'FETCH_GENRES' });
     }, []);
 
     const handleImageClick = (event) => {
@@ -25,9 +26,14 @@ function MovieList() {
         // Perhaps setup new axios.get that targets the '/${event}'
     }
 
+    const navMovieForm = () => {
+        history.push('/form')
+    }
+
     return (
         <main>
-            <h1>MovieList</h1>
+            <button onClick={navMovieForm}>ADD MOVIE</button>
+            {/* <h1>MovieList</h1> */}
             <section className="movies">
                 {movies.map(movie => {
                     return (
