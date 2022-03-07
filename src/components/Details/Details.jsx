@@ -1,6 +1,9 @@
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+// MATERIAL UI
+import { Button } from '@mui/material';
+
 export default function Details() {
 
     const history = useHistory();
@@ -33,8 +36,8 @@ export default function Details() {
                 <div><b>MOVIE DESCRIPTION:</b></div>
                 <div>{selectedMovie.description}</div>
                 <br />
-                <button onClick={handleBack}>Back</button>
-                <button onClick={handleEdit}>Edit</button>
+                <Button variant="contained" onClick={handleEdit} sx={{m: 1}}>Edit</Button>
+                <Button variant="outlined" onClick={handleBack} sx={{m: 1}}>Back</Button>
             </div>
         </>
     )
