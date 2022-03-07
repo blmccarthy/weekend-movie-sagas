@@ -2,7 +2,7 @@ import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 // MATERIAL UI
-import { Button } from '@mui/material';
+import { Button, Grid, Paper, Typography, Card, CardMedia } from '@mui/material';
 
 export default function Details() {
 
@@ -24,21 +24,32 @@ export default function Details() {
 
     return (
         <>
-            <div>
-                <img src={selectedMovie.poster} />
-                <h1>{selectedMovie.title}</h1>
-                <div><b>GENRES</b></div>
-                <ul>
-                    {selectedGenre.map((movie) => {
-                        return (<li key={movie.genre_id}>{movie.genre}</li>)
-                    })}
-                </ul>
-                <div><b>MOVIE DESCRIPTION:</b></div>
-                <div>{selectedMovie.description}</div>
-                <br />
-                <Button variant="contained" onClick={handleEdit} sx={{m: 1}}>Edit</Button>
-                <Button variant="outlined" onClick={handleBack} sx={{m: 1}}>Back</Button>
-            </div>
+            <Paper elevation={3} sx={{ width: "90%", mx: "auto", my: 6 }}>
+                <Grid container spacing={0}>
+                    <Grid item lg={5} md={5} sm={5} xs={12}>
+                        <Card sx={{ m: 4 }}>
+                            <CardMedia 
+                                component="img"
+                                alt={selectedMovie.title}
+                                image={selectedMovie.poster}
+                            />
+                        </Card>
+                        {/* <img src={selectedMovie.poster} /> */}
+                    </Grid>
+                    <Grid item lg={7} md={7} sm={7} xs={12} sx={{ m: "auto", px: "5%" }}>
+                        <Typography variant="h3">{selectedMovie.title}</Typography>
+                        <Typography variant="h6">Genres</Typography>
+                        {selectedGenre.map((movie) => {
+                            return (<Typography variant="subtitle1" key={movie.genre_id}>{movie.genre}</Typography>)
+                        })}
+                        <Typography variant="h6">Movie Description</Typography>
+                        <Typography variant="body2" textAlign="center">{selectedMovie.description}</Typography>
+                        <br />
+                        <Button variant="contained" onClick={handleEdit} sx={{ m: 1 }}>Edit</Button>
+                        <Button variant="outlined" onClick={handleBack} sx={{ m: 1 }}>Back</Button>
+                    </Grid>
+                </Grid>
+            </Paper>
         </>
     )
 }
