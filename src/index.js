@@ -10,6 +10,7 @@ import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import { takeEvery, put } from 'redux-saga/effects';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 // ===== SAGA STORE ============================================================= //
 
@@ -17,6 +18,7 @@ import axios from 'axios';
 function* rootSaga() {
     yield takeEvery('ADD_MOVIE', addMovie);
     yield takeEvery('FETCH_MOVIES', fetchAllMovies);
+    yield takeEvery('FETCH_SELECTED_MOVIE', fetchSelectedMovie); // ADDING AXIOS GET to replace DISPATCH
     yield takeEvery('FETCH_GENRES', fetchAllGenres);
     yield takeEvery('FETCH_MOVIE_GENRES', fetchMovieGenres);
     yield takeEvery('UPDATE_MOVIE', updateMovie);
@@ -30,6 +32,17 @@ function* fetchAllMovies() {
         const movies = yield axios.get('/api/movie');
         console.log('get all movies:', movies.data);
         yield put({ type: 'SET_MOVIES', payload: movies.data });
+    } catch {
+        console.log('get all movies error');
+    }
+}
+
+function* fetchSelectedMovie(action) {
+    // get SELECTED MOVIE from the DB
+    try {
+        const movies = yield axios.get(`/api/movie/${action.payload}`);
+        console.log('get all movies:', movies.data);
+        yield put({ type: 'SET_SELECTED_MOVIE', payload: movies.data });
     } catch {
         console.log('get all movies error');
     }
@@ -69,6 +82,7 @@ function* addMovie(action) {
 }
 
 function* updateMovie(action) {
+    // update MOVIE to Database
     console.log('action.payload', action.payload);
     try {
         axios.put(`/api/movie/${action.payload.id}`, action.payload)

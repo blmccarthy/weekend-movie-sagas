@@ -1,11 +1,13 @@
-import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 // MATERIAL UI
 import { Button, Grid, Paper, Typography, Card, CardMedia } from '@mui/material';
 
 export default function Details() {
 
+    const dispatch = useDispatch();
     const history = useHistory();
 
     // Reducer Imports
@@ -21,6 +23,17 @@ export default function Details() {
     const handleEdit = () => {
         history.push(`/edit/${selectedMovie.id}`);
     }
+
+    // store page params
+    const { id } = useParams();
+
+
+    useEffect(() => {
+        dispatch({ type: 'FETCH_SELECTED_MOVIE', payload: id });
+    }, []);
+
+    console.log('id', id)
+    console.log('selectedMovie', selectedMovie[0]);
 
     return (
         <>
