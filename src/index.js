@@ -40,11 +40,13 @@ function* fetchAllMovies() {
 function* fetchSelectedMovie(action) {
     // get SELECTED MOVIE from the DB
     try {
-        const movies = yield axios.get(`/api/movie/${action.payload}`);
-        console.log('get all movies:', movies.data);
-        yield put({ type: 'SET_SELECTED_MOVIE', payload: movies.data });
-    } catch {
-        console.log('get all movies error');
+        console.log('action.payload', action.payload);
+        const selectedMovieID = action.payload;
+        const selectedMovie = yield axios.get(`/api/movie/${selectedMovieID}`);
+        console.log('selectedMovie:', selectedMovie);
+        yield put({ type: 'SET_SELECTED_MOVIE', payload: selectedMovie.data });
+    } catch (err) {
+        console.log('fetchSelectedMovie', err);
     }
 }
 
@@ -131,7 +133,8 @@ const movieGenres = (state = [], action) => {
 const selectedMovieReducer = (state = {}, action) => {
     switch (action.type) {
         case 'SET_SELECTED_MOVIE':
-            return action.payload;
+            console.log('in selectedMovieReducer', action.payload[0]);
+            return action.payload[0];
         default:
             return state;
     }

@@ -19,11 +19,12 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-
+  console.log('in get /id', req.params.id)
   reqId = req.params.id;
   const query = `SELECT * FROM movies WHERE id = $1;`;
   pool.query(query, [reqId])
     .then( result => {
+      console.log('get /:id response', result.rows)
       res.send(result.rows);
     })
     .catch(err => {

@@ -28,12 +28,11 @@ export default function Details() {
     const { id } = useParams();
 
 
+    // Protects page from breaking upon reload
     useEffect(() => {
         dispatch({ type: 'FETCH_SELECTED_MOVIE', payload: id });
     }, []);
 
-    console.log('id', id)
-    console.log('selectedMovie', selectedMovie[0]);
 
     return (
         <>
